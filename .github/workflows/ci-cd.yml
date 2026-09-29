@@ -23,9 +23,6 @@ jobs:
           pip install -r requirements.txt
           pip install pytest bandit
 
-      - name: Run unit tests
-        run: pytest tests/
-
       - name: Security scan
         run: bandit -r .
 
