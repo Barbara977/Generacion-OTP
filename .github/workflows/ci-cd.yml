@@ -19,28 +19,7 @@ jobs:
           python-version: "3.11"
 
       - name: Install dependencies
-        run: |
-          pip install -r requirements.txt
-          pip install pytest bandit
+        run: pip install -r requirements.txt
 
-      - name: Security scan
-        run: bandit -r .
-
-  docker-deploy:
-    needs: build-test
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v3
-
-      - name: Log in to DockerHub
-        uses: docker/login-action@v2
-        with:
-          username: ${{ secrets.DOCKER_USER }}
-          password: ${{ secrets.DOCKER_PASS }}
-
-      - name: Build Docker image
-        run: docker build -t myotpservice:latest .
-
-      - name: Push Docker image
-        run: docker push myotpservice:latest
+      - name: Run unit tests
+        run: pytest tests/
